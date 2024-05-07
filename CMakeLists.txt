@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 project(pybind_test)
 
-#************************************基础配置***********************************************************
+#************************************pybind基础配置***********************************************************
 # 添加子目录 pybind11
 add_subdirectory(extern/pybind11)
 
@@ -25,6 +25,5 @@ function(link_to_python target_module)
     )
 endfunction()
 
-#******************************访问子文件CMakeLists.txt*********************************************
-add_subdirectory(core/add)
-
+#******************************访问pybind子文件CMakeLists.txt*********************************************
+add_subdirectory(src)
