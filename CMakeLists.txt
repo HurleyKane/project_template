@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.28)
 project(pybind_test)
 
+set(CMAKE_EXE_LINKER_FLAGS "-static")  # 解决exe文件无法打开的错误
+
 #************************************pybind基础配置***********************************************************
 # 添加子目录 pybind11
 add_subdirectory(extern/pybind11)
@@ -24,6 +26,10 @@ function(link_to_python target_module)
             ${PYTHON311_LIB}
     )
 endfunction()
+
+# 添加字符设置
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 #******************************访问pybind子文件CMakeLists.txt*********************************************
 add_subdirectory(src)

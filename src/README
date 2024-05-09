@@ -1,0 +1,6 @@
+# 提供了两种打包方式的对比
+
+setup.py : 为Python利用pybind对cpp文件进行打包的示例
+setup_pybind.py : 为setuptool + pybind模块 进行打包的示例
+
+CMakelists.txt : 为C++中CMake对cpp文件打包的示例
