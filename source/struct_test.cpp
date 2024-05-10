@@ -9,3 +9,6 @@ const std::string& Pet::getName() const {
     return name;
 }
 
+void Pet::set(int age_) { age = age_;}
+
+void Pet::set(const std::string &name_) { name = name_;}

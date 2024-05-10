@@ -2,10 +2,11 @@
 // Created by HurleyKane on 2024/5/8.
 //
 #include<iostream>
-#include "add.h"
+#include "class_cat.h"
 
 int main(){
-    std::cout << add(1, 2) << " hello world!" << std::endl;
+    test11& nihao = get_test11();
+    std::cout << nihao.getName() << std::endl;
     system("pause");
     return 0;
 }

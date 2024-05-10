@@ -14,4 +14,5 @@ private:
     std::string name;
 };
 
+test11& get_test11();
 #endif //PYBIND_TEST_CLASS_CAT_H

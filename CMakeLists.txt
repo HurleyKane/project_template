@@ -32,4 +32,4 @@ add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 #******************************访问pybind子文件CMakeLists.txt*********************************************
-add_subdirectory(src)
+add_subdirectory(source)
