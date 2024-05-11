@@ -2,9 +2,10 @@
 import os
 import setuptools
 from glob import glob
-from pybind11.setup_helpers import Pybind11Extension, build_ext
+from setuptools import Extension
+from setuptools.command.build_ext import build_ext
 
-VERSION = '0.0.2'
+VERSION = '0.0.3'
 
 # import subprocess
 # cplus_projectPath = os.path.join(os.path.dirname(__file__), "pybindStudy", "Cplus")  # 子项目编译
@@ -20,13 +21,12 @@ class CustomBuildExt(build_ext):
         filename = self.get_ext_filename(ext_name)
         return os.path.join(output_dir, filename)
 
-example_module = Pybind11Extension(
+example_module =Extension(
     name = "function",
     # sources = ["setup.cpp", "class_cat.cpp", "function_add.cpp", "struct_test.cpp"],
     sources = glob("pybindStudy/Cplus/source/*.cpp"),
     include_dirs=[r"pybindStudy/Cplus/include"]
 )
-
 
 setuptools.setup(
     name="pybindStudy",
