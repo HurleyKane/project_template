@@ -41,6 +41,7 @@ setuptools.setup(
         # 引入任何包下的pyd文件，加入字典则对应包下的文件
         "": ["*.pyd"]
     },
+    cmdclass={"build_ext": CustomBuildExt},
     install_requires=[
         "pybind11"
     ],
