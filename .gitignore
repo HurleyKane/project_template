@@ -1,5 +1,10 @@
-/extern
-/cmake-build-release-visual-studio
-/cmake-build-debug-visual-studio
+/pybindStudy/Cplus/extern
+/pybindStudy/Cplus/cmake-build-release-visual-studio
+/pybindStudy/Cplus/.idea
+/pybindStudy/Cplus/core
+/pybindStudy/Cplus/cmake-build-debug-visual-studio
+/pybindStudy/Cplus/build
+/pybindStudy.egg-info
 /.idea
-/source/build
+/build
+/.eggs

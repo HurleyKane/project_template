@@ -5,5 +5,6 @@ github：https://github.com/HurleyKane/pybind_study
 ```
 python setup.py sdist # 打包成压缩包
 python setup.py bdist_wheel # 打包成whl，该打包完成后可以直接利用pip工具进行安装, 需要安装wheel
-python
+python setup.py build
+python setup.py install
 ```
