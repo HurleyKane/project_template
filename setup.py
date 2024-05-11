@@ -7,6 +7,7 @@ from setuptools.command.build_ext import build_ext
 
 VERSION = '0.0.3'
 
+
 # import subprocess
 # cplus_projectPath = os.path.join(os.path.dirname(__file__), "pybindStudy", "Cplus")  # 子项目编译
 # subprocess.run(["python", "setup.py", "build"], cwd=cplus_projectPath)
@@ -21,10 +22,11 @@ class CustomBuildExt(build_ext):
         filename = self.get_ext_filename(ext_name)
         return os.path.join(output_dir, filename)
 
-example_module =Extension(
-    name = "function",
+
+example_module = Extension(
+    name="function",
     # sources = ["setup.cpp", "class_cat.cpp", "function_add.cpp", "struct_test.cpp"],
-    sources = glob("pybindStudy/Cplus/source/*.cpp"),
+    sources=glob("pybindStudy/Cplus/source/*.cpp"),
     include_dirs=[r"pybindStudy/Cplus/include"]
 )
 
