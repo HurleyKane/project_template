@@ -1,0 +1,10 @@
+README
+setup.py
+core/__init__.py
+core/function.cp311-win_amd64.pyd
+core/function.py
+pybind_study.egg-info/PKG-INFO
+pybind_study.egg-info/SOURCES.txt
+pybind_study.egg-info/dependency_links.txt
+pybind_study.egg-info/requires.txt
+pybind_study.egg-info/top_level.txt

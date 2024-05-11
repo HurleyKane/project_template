@@ -1,2 +1,9 @@
 csdn博客：https://blog.csdn.net/qq_41588285/article/details/138529626?spm=1001.2014.3001.5502
 github：https://github.com/HurleyKane/pybind_study
+
+# 打包方法,控制台
+```
+python setup.py sdist # 打包成压缩包
+python setup.py bdist_wheel # 打包成whl，该打包完成后可以直接利用pip工具进行安装, 需要安装wheel
+python
+```

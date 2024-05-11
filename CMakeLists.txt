@@ -19,6 +19,10 @@ find_library(PYTHON3_LIB python3 PATHS ${PYTHON_LIB_DIR})
 find_library(PYTHON311_LIB python311 PATHS ${PYTHON_LIB_DIR})
 link_directories(${PTTHON_LIB_DIR})
 
+
+#*****************************************路径的设置******************************************************************
+
+
 # 添加依赖项函数
 function(link_to_python target_module)
     target_link_libraries(${target_module} PUBLIC
