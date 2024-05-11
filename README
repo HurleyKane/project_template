@@ -8,3 +8,6 @@ python setup.py bdist_wheel # 打包成whl，该打包完成后可以直接利�
 python setup.py build
 python setup.py install
 ```
+
+# 正式安装方式
+pip install git+https://github.com/HurleyKane/pybind_study.git@v0.0.2
