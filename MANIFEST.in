@@ -1,21 +1,2 @@
-include .gitignore
-include README
-include dist/pybindStudy-0.0.2-py3-none-any.whl
-include dist/pybindStudy-0.0.2-py3.11.egg
-include pybindStudy/Cplus/CMakeLists.txt
-include pybindStudy/Cplus/__init__.py
-include pybindStudy/Cplus/include/add.h
-include pybindStudy/Cplus/include/class_cat.h
-include pybindStudy/Cplus/include/struct_test.h
-include pybindStudy/Cplus/main.cpp
-include pybindStudy/Cplus/source/CMakeLists.txt
-include pybindStudy/Cplus/source/README
-include pybindStudy/Cplus/source/class_cat.cpp
-include pybindStudy/Cplus/source/function_add.cpp
-include pybindStudy/Cplus/source/setup.cpp
-include pybindStudy/Cplus/source/struct_test.cpp
-include pybindStudy/README
-include pybindStudy/__init__.py
-include setup.py
+recursive-include pybindStudy *
 include CMakeLists.txt
-exclude MANIFEST.in

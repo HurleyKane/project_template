@@ -27,7 +27,7 @@ class CMakeBuild(build_ext):
 
 
 setup(
-    name="geodesy",
+    name="test1",
     version="0.0.4",
     packages=["pybindStudy"],
     ext_modules= [Extension("function", [])],
