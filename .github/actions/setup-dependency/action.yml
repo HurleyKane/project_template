@@ -36,18 +36,17 @@ runs:
           echo "type=tar" >> $GITHUB_OUTPUT
         else
           echo "type=unknown" >> $GITHUB_OUTPUT
-        fi
-      shell: bash
 
     - name: Handle git repository
       if: steps.source_type.outputs.type == 'git'
+      shell: bash
       run: |
         echo "Cloning git repository to ${{ inputs.dest }}"
         git clone ${{ inputs.source }} ${{ inputs.dest }}
-      shell: bash
 
     - name: Handle zip/tar on Linux/macOS
       if: steps.source_type.outputs.type != 'git' && runner.os != 'Windows'
+      shell: bash
       run: |
         echo "Downloading ${{ inputs.source }}"
         wget -q ${{ inputs.source }} -O tmp_archive
@@ -59,20 +58,19 @@ runs:
         else
           echo "ERROR: Unknown archive type"
           exit 1
-      shell: bash
 
     - name: Handle zip on Windows
       if: steps.source_type.outputs.type == 'zip' && runner.os == 'Windows'
+      shell: powershell
       run: |
         Write-Output "Downloading ${{ inputs.source }}"
         Invoke-WebRequest -Uri ${{ inputs.source }} -OutFile tmp_archive
         New-Item -ItemType Directory -Path ${{ inputs.dest }} -Force
         Expand-Archive tmp_archive -DestinationPath ${{ inputs.dest }} -Force
-      shell: powershell
 
     - name: Unsupported types on Windows
       if: steps.source_type.outputs.type != 'git' && steps.source_type.outputs.type != 'zip' && runner.os == 'Windows'
+      shell: powershell
       run: |
         Write-Error "ERROR: Only zip archives are supported on Windows for now"
         exit 1
-      shell: powershell
