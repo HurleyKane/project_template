@@ -1,4 +1,4 @@
-name: Build and Attach Release Packages
+name: Template Build and Attach Release Packages
 description: 这是一个支持python包的构建和发布工作流模板。支持使用pybind11进行构建
 
 on:
@@ -14,10 +14,10 @@ on:
         required: false
         type: string
         default: "python -m build"
-      secrets:
-        caller_token:
-          description: "GitHub token for uploading release assets"
-          required: false
+    secrets:
+      caller_token:
+        description: "GitHub token for uploading release assets"
+        required: false
 
 permissions:
   contents: write
