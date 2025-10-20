@@ -41,12 +41,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dist-${{ matrix.os }}-py${{ matrix.python-version }}
-          path: dist/*
+          path: dist/* # 上传所有构建生成的包文件（.whl 和 .tar.gz）
 
       - name: Upload release assets
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') # 只有当当前 workflow 是由 tag 推送触发（github.ref 以 refs/tags/ 开头）时才运行这个 step。
         with:
-          files: dist/*
+          files: dist/* # 传给 action 的参数。files 值是一个路径/通配符（glob），表示要上传的文件集合。 dist/* 通常指由 python -m build 生成的 .whl 和 .tar.gz 文件。action 会把这些文件逐个上传到 Release。
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
