@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  # workflow_dispatch:  # 手动触发按钮
+  workflow_dispatch:  # 手动触发按钮
 
 jobs:
   build:
