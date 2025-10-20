@@ -1,0 +1,69 @@
+name: "Setup Dependency"
+description: "Download and extract a dependency from URL or git repository, cross-platform"
+
+inputs:
+  source:
+    description: "URL or git repository to download/clone"
+    required: true
+    type: string
+  dest:
+    description: "Destination path to extract or clone to"
+    required: true
+    type: string
+  type:
+    description: "Type of the source: 'git', 'zip', 'tar', 'auto'"
+    required: false
+    default: "auto"
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    - name: Determine source type
+      id: source_type
+      run: |
+        if [ "${{ inputs.type }}" != "auto" ]; then
+          echo "type=${{ inputs.type }}" >> $GITHUB_OUTPUT
+        elif [[ "${{ inputs.source }}" == *.git ]]; then
+          echo "type=git" >> $GITHUB_OUTPUT
+        elif [[ "${{ inputs.source }}" == *.zip ]]; then
+          echo "type=zip" >> $GITHUB_OUTPUT
+        elif [[ "${{ inputs.source }}" == *.tar.gz || "${{ inputs.source }}" == *.tgz ]]; then
+          echo "type=tar" >> $GITHUB_OUTPUT
+        else
+          echo "type=unknown" >> $GITHUB_OUTPUT
+
+    - name: Handle git repository
+      if: steps.source_type.outputs.type == 'git'
+      run: |
+        echo "Cloning git repository to ${{ inputs.dest }}"
+        git clone ${{ inputs.source }} ${{ inputs.dest }}
+
+    - name: Handle zip/tar on Linux/macOS
+      if: steps.source_type.outputs.type != 'git' && runner.os != 'Windows'
+      run: |
+        echo "Downloading ${{ inputs.source }}"
+        wget -q ${{ inputs.source }} -O tmp_archive
+        mkdir -p ${{ inputs.dest }}
+        if [[ "${{ inputs.source }}" == *.zip ]]; then
+          unzip -q tmp_archive -d ${{ inputs.dest }}
+        elif [[ "${{ inputs.source }}" == *.tar.gz || "${{ inputs.source }}" == *.tgz ]]; then
+          tar -xf tmp_archive -C ${{ inputs.dest }} --strip-components=1
+        else
+          echo "ERROR: Unknown archive type"
+          exit 1
+
+    - name: Handle zip on Windows
+      if: steps.source_type.outputs.type == 'zip' && runner.os == 'Windows'
+      shell: powershell
+      run: |
+        Write-Output "Downloading ${{ inputs.source }}"
+        Invoke-WebRequest -Uri ${{ inputs.source }} -OutFile tmp_archive
+        New-Item -ItemType Directory -Path ${{ inputs.dest }} -Force
+        Expand-Archive tmp_archive -DestinationPath ${{ inputs.dest }} -Force
+
+    - name: Unsupported types on Windows
+      if: steps.source_type.outputs.type != 'git' && steps.source_type.outputs.type != 'zip' && runner.os == 'Windows'
+      run: |
+        echo "ERROR: Only zip archives are supported on Windows for now"
+        exit 1
