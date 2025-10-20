@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   call-build:
-    uses: HurleyKane/project_template/.github/workflows/template-python-build-release.yml@main
+    uses: HurleyKane/project_template/.github/workflows/template-python-build-release.yml@master
     with:
       python-version: '["3.11"]'
       build-command: "python -m build"
