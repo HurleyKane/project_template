@@ -4,8 +4,7 @@ requires = [
     "pybind11",
     "wheel",
 ]
-# 指定使用哪个后端来构建包，这里是 setuptools.build_meta，表示使用 setuptools 的现代构建 API。
-build-backend = "setuptools.build_meta" 
+build-backend = "scikit_build_core.build"  # 防止 setuptools 重复构建
 
 [project]
 name = "project_study"
