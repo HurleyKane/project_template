@@ -42,20 +42,18 @@ runs:
       if: steps.source_type.outputs.type == 'git'
       shell: bash
       run: |
-        echo "Cloning git repository to ${{ inputs.dest }}"
-        git clone ${{ inputs.source }} ${{ inputs.dest }}
+        git clone "${{ inputs.source }}" "${{ inputs.dest }}"
 
     - name: Handle zip/tar on Linux/macOS
       if: steps.source_type.outputs.type != 'git' && runner.os != 'Windows'
       shell: bash
       run: |
-        echo "Downloading ${{ inputs.source }}"
-        wget -q ${{ inputs.source }} -O tmp_archive
-        mkdir -p ${{ inputs.dest }}
+        wget -q "${{ inputs.source }}" -O tmp_archive
+        mkdir -p "${{ inputs.dest }}"
         if [[ "${{ inputs.source }}" == *.zip ]]; then
-          unzip -q tmp_archive -d ${{ inputs.dest }}
+          unzip -q tmp_archive -d "${{ inputs.dest }}"
         elif [[ "${{ inputs.source }}" == *.tar.gz || "${{ inputs.source }}" == *.tgz ]]; then
-          tar -xf tmp_archive -C ${{ inputs.dest }} --strip-components=1
+          tar -xf tmp_archive -C "${{ inputs.dest }}" --strip-components=1
         else
           echo "ERROR: Unknown archive type"
           exit 1
@@ -65,10 +63,9 @@ runs:
       if: steps.source_type.outputs.type == 'zip' && runner.os == 'Windows'
       shell: powershell
       run: |
-        Write-Output "Downloading ${{ inputs.source }}"
-        Invoke-WebRequest -Uri ${{ inputs.source }} -OutFile tmp_archive
-        New-Item -ItemType Directory -Path ${{ inputs.dest }} -Force
-        Expand-Archive tmp_archive -DestinationPath ${{ inputs.dest }} -Force
+        Invoke-WebRequest -Uri "${{ inputs.source }}" -OutFile tmp_archive
+        New-Item -ItemType Directory -Path "${{ inputs.dest }}" -Force
+        Expand-Archive tmp_archive -DestinationPath "${{ inputs.dest }}" -Force
 
     - name: Unsupported types on Windows
       if: steps.source_type.outputs.type != 'git' && steps.source_type.outputs.type != 'zip' && runner.os == 'Windows'
