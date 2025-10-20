@@ -15,7 +15,7 @@ on:
         type: string
         default: "python -m build"
     secrets:
-      caller_token:
+      GITHUB_TOKEN:
         description: "GitHub token for uploading release assets"
         required: false
 
