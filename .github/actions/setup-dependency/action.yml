@@ -21,17 +21,22 @@ runs:
   steps:
     - name: Determine source type
       id: source_type
+      shell: bash
       run: |
-        if [ "${{ inputs.type }}" != "auto" ]; then
-          echo "type=${{ inputs.type }}" >> $GITHUB_OUTPUT
-        elif [[ "${{ inputs.source }}" == *.git ]]; then
+        source_input="${{ inputs.source }}"
+        type_input="${{ inputs.type }}"
+
+        if [ "$type_input" != "auto" ]; then
+          echo "type=$type_input" >> $GITHUB_OUTPUT
+        elif [[ "$source_input" == *.git ]]; then
           echo "type=git" >> $GITHUB_OUTPUT
-        elif [[ "${{ inputs.source }}" == *.zip ]]; then
+        elif [[ "$source_input" == *.zip ]]; then
           echo "type=zip" >> $GITHUB_OUTPUT
-        elif [[ "${{ inputs.source }}" == *.tar.gz || "${{ inputs.source }}" == *.tgz ]]; then
+        elif [[ "$source_input" == *.tar.gz || "$source_input" == *.tgz ]]; then
           echo "type=tar" >> $GITHUB_OUTPUT
         else
           echo "type=unknown" >> $GITHUB_OUTPUT
+        fi
       shell: bash
 
     - name: Handle git repository
