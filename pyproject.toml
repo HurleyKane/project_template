@@ -3,6 +3,7 @@ requires = [
     "setuptools>=42",
     "pybind11",
     "wheel",
+    "scikit-build-core",
 ]
 build-backend = "scikit_build_core.build"  # 防止 setuptools 重复构建
 
