@@ -1,0 +1,62 @@
+name: Build and Attach Release Packages
+description: 这是一个可以进行调用的工作流模板，用于构建基于pybind11打包C++文件的python包，并将构建产物上传到GitHub Release。
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        description: "Python version(s) to build with"
+        required: false
+        type: string
+        default: '["3.11"]'   # 👈 默认是一个 JSON 列表
+      build-command:
+        description: "Custom build command"
+        required: false
+        type: string
+        default: "python -m build"
+      secrets:
+        caller_token:
+          description: "GitHub token for uploading release assets"
+          required: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Python package
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ${{ fromJson(inputs.python-version) }}  # 👈 自动解析 JSON 数组
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install build dependencies
+        run: |
+          pip install -q build setuptools wheel pybind11 cmake ninja scikit-build-core
+
+      - name: Build the package
+        run: ${{ inputs.build-command }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: dist/*
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

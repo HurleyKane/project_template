@@ -20,7 +20,7 @@ pybind11_add_module(
         function MODULE ${SOURCES}
 )
 
-set(PYBIND_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}) # 路径可自行选择
+set(PYBIND_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/python) # 路径可自行选择
 set_target_properties(function PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${PYBIND_OUTPUT_DIR} # 输出路径
 )

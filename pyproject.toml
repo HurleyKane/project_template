@@ -8,5 +8,5 @@ requires = [
 build-backend = "scikit_build_core.build"  # 防止 setuptools 重复构建
 
 [project]
-name = "project_study"
+name = "project_template"
 version = "0.0.4"
