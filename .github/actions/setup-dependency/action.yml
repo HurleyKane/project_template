@@ -36,6 +36,7 @@ runs:
           echo "type=tar" >> $GITHUB_OUTPUT
         else
           echo "type=unknown" >> $GITHUB_OUTPUT
+        fi
 
     - name: Handle git repository
       if: steps.source_type.outputs.type == 'git'
@@ -58,6 +59,7 @@ runs:
         else
           echo "ERROR: Unknown archive type"
           exit 1
+        fi
 
     - name: Handle zip on Windows
       if: steps.source_type.outputs.type == 'zip' && runner.os == 'Windows'
