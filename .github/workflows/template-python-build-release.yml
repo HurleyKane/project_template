@@ -1,5 +1,5 @@
 name: Build and Attach Release Packages
-description: 这是一个可以进行调用的工作流模板，用于构建基于pybind11打包C++文件的python包，并将构建产物上传到GitHub Release。
+description: 这是一个支持python包的构建和发布工作流模板。支持使用pybind11进行构建
 
 on:
   workflow_call:
