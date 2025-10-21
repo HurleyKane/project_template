@@ -85,9 +85,6 @@ jobs:
         with:
           name: deps-artifact
           path: ${{ inputs.download-dependencies-path }}
-        run: |
-          echo "Downloaded dependencies artifact "
-          ls -R ${{ inputs.download-dependencies-path }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
