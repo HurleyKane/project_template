@@ -93,7 +93,8 @@ jobs:
 
       - name: Install build dependencies
         run: |
-          pip install -q build setuptools wheel pybind11 cmake ninja scikit-build-core
+          pip install --progress-bar off -q build setuptools wheel pybind11 cmake ninja scikit-build-core
+
 
       # 构建 Python 包
       - name: Build the package
