@@ -130,7 +130,7 @@ while IFS= read -r src; do
   elif [ "$type" = "tar" ]; then
     echo "Downloading TAR: $src"
     wget -q "$src" -O tmp_archive.tar.gz
-    tar -xf tmp_archive.tar.gz -C "$DEST_ROOT" --strip-components=1
+    tar -xf tmp_archive.tar.gz -C "$DEST_ROOT" 
     rm tmp_archive.tar.gz
 
   else
