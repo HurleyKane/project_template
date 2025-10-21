@@ -46,7 +46,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download dependencies
-        if: ${{ inputs.download-dependencies != '' }}
+        if: ${{ inputs.download-dependencies != "" }}
         uses: HurleyKane/project_template/.github/actions/setup-dependency@master
         with:
           sources: ${{ inputs.download-dependencies }}
@@ -54,7 +54,7 @@ jobs:
           type: "auto"
 
       - name: Upload dependencies artifact
-        if: ${{ inputs.download-dependencies != '' }}
+        if: ${{ inputs.download-dependencies != "" }}
         uses: actions/upload-artifact@v4
         with:
           name: deps-artifact

@@ -15,7 +15,7 @@ jobs:
     with:
       python-version: '["3.11"]'
       build-command: "python -m build"
-      download-dependencies: "git@github.com:HurleyKane/crust.git, https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.tar.gz"
+      download-dependencies: "https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.tar.gz"
       download-dependencies-path: "third_party"
     secrets:
       caller_token: ${{ secrets.GITHUB_TOKEN }}
