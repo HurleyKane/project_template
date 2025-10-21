@@ -1,40 +1,64 @@
-name: Build and Release Python Package
+name: Template Build and Attach Release Packages
+description: 这是一个支持 Python 包构建和发布的工作流模板，支持使用 pybind11 进行构建。
 
 on:
-  push:
-    tags:
-      - 'v*'
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      python-version:
+        description: "Python version(s) to build with"
+        required: false
+        type: string
+        default: '["3.11"]'   # 默认 JSON 列表
+      build-command:
+        description: "Custom build command"
+        required: false
+        type: string
+        default: "python -m build"
+      download-dependencies:
+        description: "Dependencies to set up before build (JSON list of URLs)"
+        required: false
+        type: string
+        default: ""
+      download-dependencies-path:
+        description: "Path to dependencies directory"
+        required: false
+        type: string
+        default: "./"
+    secrets:
+      caller_token:
+        description: "GitHub token for uploading release assets"
+        required: false
 
 permissions:
-  contents: write  # 上传 release 需要
+  contents: write
 
 jobs:
   # ---------------------------
-  # Job 1: 下载并解压依赖（Linux）
+  # Job 1: 下载并解压依赖（仅 Linux）
   # ---------------------------
   setup_dependencies:
     name: Download & Extract Dependencies (Linux)
     runs-on: ubuntu-latest
     outputs:
-      artifact-name: "deps-artifact"
+      deps-artifact-name: "deps-artifact"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Download dependencies
-        if: ${{ github.event.inputs.download-dependencies != '' }}
+        if: ${{ inputs.download-dependencies != '' }}
         uses: HurleyKane/project_template/.github/actions/setup-dependency@master
         with:
-          sources: ${{ github.event.inputs.download-dependencies }}
-          dest: "third_party"
+          sources: ${{ inputs.download-dependencies }}
+          dest: ${{ inputs.download-dependencies-path }}
           type: "auto"
 
       - name: Upload dependencies artifact
+        if: ${{ inputs.download-dependencies != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: deps-artifact
-          path: third_party
+          path: ${{ inputs.download-dependencies-path }}
 
   # ---------------------------
   # Job 2: 构建 Python 包（跨平台）
@@ -46,7 +70,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.11", "3.12", "3.13"]
+        python-version: ${{ fromJson(inputs.python-version) }}
 
     timeout-minutes: 180
 
@@ -54,11 +78,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 下载依赖 artifact
       - name: Download dependencies artifact
+        if: ${{ inputs.download-dependencies != '' }}
         uses: actions/download-artifact@v4
         with:
           name: deps-artifact
-          path: third_party   # 在 build job 中放置依赖的位置
+          path: ${{ inputs.download-dependencies-path }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -71,7 +97,7 @@ jobs:
 
       # 构建 Python 包
       - name: Build the package
-        run: python -m build
+        run: ${{ inputs.build-command }}
 
       # 上传构建产物
       - name: Upload build artifacts
