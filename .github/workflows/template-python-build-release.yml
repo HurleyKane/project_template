@@ -34,6 +34,7 @@ permissions:
 
 jobs:
   build:
+    timeout-minutes: 180 # 180 分钟
     name: Build Python package
     runs-on: ${{ matrix.os }}
     strategy:
