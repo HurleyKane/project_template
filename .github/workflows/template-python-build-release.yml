@@ -56,7 +56,7 @@ jobs:
 
       - name: Download dependencies via reusable action
         if: inputs.download-dependencies != ''
-        uses: HurleyKane/project_template/.github/action/setup-dependency@master
+        uses: HurleyKane/project_template/.github/actions/setup-dependency@master
         with:
           sources: ${{ inputs.download-dependencies }}
           dest: ${{ inputs.download-dependencies-path }}
