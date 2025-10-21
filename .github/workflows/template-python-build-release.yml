@@ -1,5 +1,5 @@
 name: Template Build and Attach Release Packages
-description: 这是一个支持python包的构建和发布工作流模板。支持使用pybind11进行构建
+description: 这是一个支持 Python 包构建和发布的工作流模板，支持使用 pybind11 进行构建。
 
 on:
   workflow_call:
@@ -8,12 +8,22 @@ on:
         description: "Python version(s) to build with"
         required: false
         type: string
-        default: '["3.11"]'   # 👈 默认是一个 JSON 列表
+        default: '["3.11"]'   # 👈 默认 JSON 列表
       build-command:
         description: "Custom build command"
         required: false
         type: string
         default: "python -m build"
+      download-dependencies:
+        description: "Dependencies to set up before build (JSON list of URLs)"
+        required: false
+        type: string
+        default: ""
+      download-dependencies-path:
+        description: "Path to dependencies directory"
+        required: false
+        type: string
+        default: "./"
     secrets:
       caller_token:
         description: "GitHub token for uploading release assets"
@@ -29,7 +39,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ${{ fromJson(inputs.python-version) }}  # 👈 自动解析 JSON 数组
+        python-version: ${{ fromJson(inputs.python-version) }}
 
     steps:
       - name: Checkout repository
@@ -44,15 +54,28 @@ jobs:
         run: |
           pip install -q build setuptools wheel pybind11 cmake ninja scikit-build-core
 
+      - name: Download dependencies via reusable action
+        if: inputs.download-dependencies != ''
+        uses: HurleyKane/project_template/.github/action/setup-dependency@master
+        with:
+          sources: ${{ inputs.download-dependencies }}
+          dest: ${{ inputs.download-dependencies-path }}
+          type: "auto"
+
+      # =======================================================
+      # 构建 Python 包
+      # =======================================================
       - name: Build the package
         run: ${{ inputs.build-command }}
 
+      # 上传构建产物
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dist-${{ matrix.os }}-py${{ matrix.python-version }}
           path: dist/*
 
+      # 上传到 Release
       - name: Upload release assets
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')

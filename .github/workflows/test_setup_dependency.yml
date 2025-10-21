@@ -16,24 +16,28 @@ jobs:
       - name: Download Eigen (zip)
         uses: ./.github/actions/setup-dependency
         with:
-          source: "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip"
-          dest: "deps/eigen"
+          sources: '[
+              "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip",
+              "https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.zip",
+
+            ]
+          dest: "./deps"
           type: "auto"
 
       # 3️⃣ 下载并解压一个 tar.gz 包
       - name: Download Catch2 (tar.gz)
         uses: ./.github/actions/setup-dependency
         with:
-          source: "https://github.com/catchorg/Catch2/archive/refs/tags/v3.3.2.tar.gz"
-          dest: "deps/catch2"
+          sources: "https://github.com/catchorg/Catch2/archive/refs/tags/v3.3.2.tar.gz"
+          dest: "./deps"
           type: "auto"
 
       # 4️⃣ Clone 一个 git 仓库
       - name: Clone fmt library
         uses: ./.github/actions/setup-dependency
         with:
-          source: "https://github.com/fmtlib/fmt.git"
-          dest: "deps/fmt"
+          sources: "https://github.com/fmtlib/fmt.git"
+          dest: "deps"
           type: "git"
 
       - name: list deps directory
