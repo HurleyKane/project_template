@@ -85,7 +85,7 @@ jobs:
         with:
           name: deps-artifact
           path: ${{ inputs.download-dependencies-path }}
-    
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -94,7 +94,6 @@ jobs:
       - name: Install build dependencies
         run: |
           pip install --progress-bar off -q build setuptools wheel pybind11 cmake ninja scikit-build-core
-
 
       # 构建 Python 包
       - name: Build the package

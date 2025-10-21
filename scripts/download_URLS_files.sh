@@ -3,7 +3,7 @@ set -e
 
 # 默认值
 SOURCES_INPUT=""
-DEST_ROOT=""
+DEST_ROOT="./"
 TYPE_INPUT="auto"
 
 # 帮助信息
