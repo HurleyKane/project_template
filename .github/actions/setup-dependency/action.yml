@@ -15,8 +15,5 @@ runs:
   using: "composite"
   steps:
     - name: Run download_URLS_files.sh
-      run: bash "${{ github.action_path }}/../../../scripts/download_URLS_files.sh" \
-           -s "${{ inputs.sources }}" \
-           -d "${{ inputs.dest }}" \
-           -t "${{ inputs.type }}"
+      run: bash "${{ github.action_path }}/../../../scripts/download_URLS_files.sh" -s "${{ inputs.sources }}" -d "${{ inputs.dest }}"  -t "${{ inputs.type }}"
       shell: bash
